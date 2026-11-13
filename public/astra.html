@@ -1966,7 +1966,7 @@ function bgSheetRender() {
     bgRngPaint();
   }
 }
-function openBg() { bgErr(''); bgSheetRender(); if (!bgs.open) bgs.showModal(); }
+function openBg() { closeProf(); bgErr(''); bgSheetRender(); if (!bgs.open) bgs.showModal(); }
 function closeBg() { if (bgs.open) bgs.close(); }
 
 async function bgPick(file) {
