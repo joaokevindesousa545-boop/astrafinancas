@@ -527,6 +527,8 @@ html.pvo #app,html.pvo #fab,html.pvo .toast{visibility:hidden}
   .topbar::after,.card::after,.kp::after,.mcap::after,.nb::after,.pill::after,.banner::after,.lst::after,.rows::after,.fab::after,.pv-bar::after{display:none}
 }
 
+
+.bnav{position:fixed;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom,0px));z-index:16;display:flex;gap:6px;padding:6px;border-radius:999px;background:var(--g-bar);-webkit-backdrop-filter:var(--blur-bar);backdrop-filter:var(--blur-bar);box-shadow:inset 0 0 0 1px var(--rim-2),var(--shadow)}.bn{width:64px;height:48px;border:0;border-radius:999px;background:transparent;color:var(--text-2);display:grid;place-items:center;cursor:pointer;transition:background-color .2s,color .2s}.bn .i{width:24px;height:24px}.bn.on{background:var(--tile);color:var(--blue-txt)}.fab{bottom:calc(max(14px,env(safe-area-inset-bottom,0px)) + 72px)!important}#prof,#cout{--acc:var(--blue);max-width:460px;width:calc(100% - 24px)}.pf-who{display:flex;align-items:center;gap:12px}.pf-who h2{margin:0}.pf-av{width:48px;height:48px;border-radius:50%;background:var(--tile);color:var(--blue-txt);display:grid;place-items:center;overflow:hidden;flex:none}.pf-av img{width:100%;height:100%;object-fit:cover}.pf-list{display:flex;flex-direction:column;gap:8px}.pf-row{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:8px 14px;border:0;border-radius:20px;background:var(--g2);box-shadow:inset 0 0 0 1px var(--rim-2);color:var(--text);font:600 15px var(--font);text-align:left;cursor:pointer}.pf-row[hidden]{display:none!important}.pf-row .bdg{position:static}.pf-t{flex:1}.pf-ic{width:36px;height:36px;border-radius:12px;background:var(--tile);color:var(--blue-txt);display:grid;place-items:center}.pf-row .chev{width:18px;height:18px;color:var(--text-3)}.pf-out{color:#D23B3B}.pf-out .pf-ic{background:rgba(210,59,59,.12);color:#D23B3B}.pf-danger{background:#D23B3B!important}
 </style>
 <div id="bg" aria-hidden="true">
 <i class="b-a"></i><i class="b-r"></i>
@@ -615,10 +617,10 @@ html.pvo #app,html.pvo #fab,html.pvo .toast{visibility:hidden}
       <div><h1>Astra Finanças</h1><p>Finanças da empresa</p></div>
     </div>
     <div class="top-r">
-      <button class="btn-ic" id="abtn" data-act="adm" type="button" aria-label="Contas cadastradas" hidden><svg class="i"><use href="#i-users"/></svg><span class="bdg" id="abdg" hidden></span></button>
+      
       <button class="btn-ic btn-pv" id="pvbtn" data-act="phone" type="button" aria-label="Ver como no celular" title="Ver como no celular" hidden><svg class="i"><use href="#i-phone"/></svg></button>
-      <button class="btn-ic" id="bgbtn" data-act="bg" type="button" aria-label="Fundo do app" title="Fundo do app"><svg class="i"><use href="#i-image"/></svg></button>
-      <button class="btn-ic" id="sbtn" data-act="search" type="button" aria-label="Buscar lançamento" aria-expanded="false" aria-controls="sbox"><svg class="i"><use href="#i-search"/></svg></button><button class="btn-ic" data-act="logout" type="button" aria-label="Sair" title="Sair"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></button>
+      
+      <button class="btn-ic" id="sbtn" data-act="search" type="button" aria-label="Buscar lançamento" aria-expanded="false" aria-controls="sbox"><svg class="i"><use href="#i-search"/></svg></button>
       <button class="btn btn-primary btn-new" data-act="new" type="button"><svg class="i"><use href="#i-plus"/></svg>Novo lançamento</button>
     </div>
   </header>
@@ -655,6 +657,9 @@ html.pvo #app,html.pvo #fab,html.pvo .toast{visibility:hidden}
   </main>
 </div>
 
+<nav class="bnav" id="bnav" aria-label="Navegação"><button type="button" class="bn on" id="bn-home" data-act="home" aria-label="Início"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></button><button type="button" class="bn" id="bn-prof" data-act="prof" aria-label="Perfil"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button></nav>
+<dialog id="prof" aria-label="Perfil"><div class="adm"><div class="sheet-h"><div class="pf-who"><span class="pf-av" id="pf-av"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><div><h2 id="pf-name">Perfil</h2><p class="adm-sub" id="pf-mail"></p></div></div><button type="button" class="x" data-act="pclose" aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg></button></div><div class="pf-list"><button type="button" class="pf-row" id="abtn" data-act="adm" hidden><span class="pf-ic"><svg class="i"><use href="#i-users"/></svg></span><span class="pf-t">Contas cadastradas</span><span class="bdg" id="abdg" hidden></span><svg class="i chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></button><button type="button" class="pf-row" id="bgbtn" data-act="bg"><span class="pf-ic"><svg class="i"><use href="#i-image"/></svg></span><span class="pf-t">Fundo do app</span><svg class="i chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></button><button type="button" class="pf-row pf-out" data-act="askout"><span class="pf-ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span><span class="pf-t">Sair da conta</span></button></div><div style="height:20px"></div></div></dialog>
+<dialog id="cout" aria-labelledby="cout-t"><div class="adm" style="text-align:center;padding-bottom:20px"><h2 id="cout-t" style="margin:6px 0 6px">Sair da conta?</h2><p class="adm-sub" style="margin:0 0 18px">Você precisará entrar de novo para ver seus lançamentos.</p><div style="display:flex;gap:10px"><button type="button" class="btn btn-ghost" style="flex:1" data-act="coutno">Cancelar</button><button type="button" class="btn btn-primary pf-danger" style="flex:1" data-act="logout">Sair</button></div></div></dialog>
 <button class="fab" id="fab" data-act="new" type="button" aria-label="Novo lançamento"><svg class="i"><use href="#i-plus"/></svg></button>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -1404,9 +1409,22 @@ async function onDelete() {
 /* ---------- painel do proprietário: só a lista de contas ---------- */
 function openAdm() {
   if (!S.owner) return;
+  closeProf();
   renderAdm();
   if (!adm.open) adm.showModal();
 }
+function openProf() {
+  const me = S.me || {}, pr = $('#prof');
+  $('#pf-name').textContent = me.name || 'Perfil';
+  $('#pf-mail').textContent = me.email || '';
+  if (me.avatarUrl) $('#pf-av').innerHTML = '<img src="' + esc(me.avatarUrl) + '" alt="">';
+  $('#bn-prof').classList.add('on'); $('#bn-home').classList.remove('on');
+  if (!pr.open) pr.showModal();
+}
+function closeProf() { const pr = $('#prof'); if (pr.open) pr.close(); }
+$('#prof').addEventListener('close', () => { $('#bn-prof').classList.remove('on'); $('#bn-home').classList.add('on'); });
+$('#prof').addEventListener('click', e => { if (e.target === e.currentTarget) closeProf(); });
+$('#cout').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
 function closeAdm() { if (adm.open) adm.close(); }
 adm.addEventListener('click', e => { if (e.target === adm) closeAdm(); });
 
@@ -1491,7 +1509,12 @@ document.addEventListener('click', e => {
   else if (a === 'nodate') { $('#f-date').value = ''; balPreview(); }
   else if (a === 'del') onDelete();
   else if (a === 'reload') location.reload();
-  else if (a === 'logout') { try { window.claude && window.claude.signOut && window.claude.signOut(); } catch (e) {} }
+  else if (a === 'prof') openProf();
+  else if (a === 'home') { closeProf(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  else if (a === 'pclose') closeProf();
+  else if (a === 'askout') { closeProf(); $('#cout').showModal(); }
+  else if (a === 'coutno') $('#cout').close();
+  else if (a === 'logout') { $('#cout').open && $('#cout').close(); try { window.claude && window.claude.signOut && window.claude.signOut(); } catch (e) {} }
   else if (a === 'adm') openAdm();
   else if (a === 'aclose') closeAdm();
   else if (a === 'import') importLegacy();
