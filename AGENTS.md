@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Astra Finanças UI lives verbatim in public/astra.html (original vanilla app); src/lib/astra-runtime.ts provides its `window.claude` db/user API on Lovable Cloud (`docs` table keyed by path) — keep the original file intact so the look matches exactly.
