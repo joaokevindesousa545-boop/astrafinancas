@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# Astrafinancas
+
+Quero trazer esse projeto do Claude para aqui para o Lovable. Segue o arquivo HTML do Astra Finanças para recriar o app completo com todas as funcionalidades e o mesmo visual.
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://astrafinancas.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/20dd14b5-552b-47f7-a38c-006e41c9907c).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
