@@ -876,10 +876,9 @@ function timeline() {
   const cur = curYm();
   let lo = cur, hi = cur;
   S.items.forEach(it => { const m = ymOf(it.date); if (m) { if (m < lo) lo = m; if (m > hi) hi = m; } });
-  if (hi < addMonths(cur, 12)) hi = addMonths(cur, 12);
   const W = Math.min(12, Math.max(6, mIdx(hi) - mIdx(lo) + 1));
   const tlo = mIdx(lo) > mIdx(hi) - (W - 1) ? addMonths(hi, -(W - 1)) : lo;
-  return { cur: cur, lo: lo, hi: hi, W: W, tlo: tlo };
+  return { cur: cur, lo: lo, hi: hi, W: W, tlo: tlo, nav: hi > addMonths(cur, 12) ? hi : addMonths(cur, 12) };
 }
 
 /* mantém o mês aberto dentro dos limites */
@@ -887,7 +886,7 @@ function ensureSel() {
   const T = timeline();
   if (S.sel === 'sd') { if (S.ready && !S.items.some(i => !i.date)) S.sel = T.cur; return T; }
   if (!S.sel) S.sel = T.cur;
-  if (S.sel > T.hi) S.sel = T.hi;
+  if (S.sel > T.nav) S.sel = T.nav;
   if (S.sel < T.tlo) S.sel = T.tlo;
   return T;
 }
@@ -985,7 +984,7 @@ function renderHead(T) {
   }
   S.headSel = S.sel;
   $('[data-act="prev"]').disabled = !ready || sd || S.sel <= T.lo;
-  $('[data-act="next"]').disabled = !ready || sd || S.sel >= T.hi;
+  $('[data-act="next"]').disabled = !ready || sd || S.sel >= T.nav;
   $('#mtop').classList.toggle('sd', sd);
   const key = sd ? 'back' : 'today';
   if (key !== sideKey) {
@@ -1351,7 +1350,8 @@ function openSheet(id) {
   S.descAuto = it ? it.desc === it.cat : true;
   if (!it) syncDesc();
   $('#f-val').value = it ? num(it.cents) : '';
-  $('#f-date').value = it ? it.date : today();
+  $('#f-date').value = it ? it.date : (S.sel && S.sel !== 'sd' && S.sel !== curYm() ? S.sel + '-01' : today());
+  $('#f-rep').value = '1'; $('#f-rep-w').hidden = !!it; S.catEdit = false;
   $('#f-note').value = it ? it.note : '';
   setType(it ? it.type : 'despesa');
   ferr(''); disarm(); setBusy(false);
@@ -1478,7 +1478,7 @@ document.addEventListener('submit', e => {
 /* ---------- events ---------- */
 function go(ym) {
   const T = timeline();
-  if (ym > T.hi) ym = T.hi;
+  if (ym > T.nav) ym = T.nav;
   if (ym < T.tlo) ym = T.tlo;
   if (ym === S.sel) return;
   S.sel = ym; render();
@@ -1496,7 +1496,7 @@ function toggleAcc(t) {
 }
 function closeSearch() { S.q = ''; S.searchOpen = false; $('#q').value = ''; render(); }
 
-document.addEventListener('click', e => {
+document.addEventListener('click', async e => {
   const t = e.target.closest('[data-act]');
   if (!t || t.disabled) return;
   const a = t.dataset.act;
