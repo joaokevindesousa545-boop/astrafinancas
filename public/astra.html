@@ -619,7 +619,7 @@ dialog::backdrop{background:rgba(8,16,36,.14);-webkit-backdrop-filter:blur(6px);
 </svg>
 
 <div class="app" id="app">
-  <header class="topbar">
+  <header class="topbar" hidden style="display:none">
     <div class="top-r">
       
       <button class="btn-ic btn-pv" id="pvbtn" data-act="phone" type="button" aria-label="Ver como no celular" title="Ver como no celular" hidden><svg class="i"><use href="#i-phone"/></svg></button>
@@ -661,7 +661,7 @@ dialog::backdrop{background:rgba(8,16,36,.14);-webkit-backdrop-filter:blur(6px);
   </main>
 </div>
 
-<nav class="bnav" id="bnav" aria-label="Navegação"><button type="button" class="bn on" id="bn-home" data-act="home" aria-label="Início"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></button><button type="button" class="bn" id="bn-prof" data-act="prof" aria-label="Perfil"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button></nav>
+<nav class="bnav" id="bnav" aria-label="Navegação"><button type="button" class="bn on" id="bn-home" data-act="home" aria-label="Início"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></button><button type="button" class="bn" data-act="search" aria-label="Buscar"><svg class="i"><use href="#i-search"/></svg></button><button type="button" class="bn" id="bn-prof" data-act="prof" aria-label="Perfil"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button></nav>
 <dialog id="prof" aria-label="Perfil"><div class="adm"><div class="sheet-h"><div class="pf-who"><span class="pf-av" id="pf-av"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><div><h2 id="pf-name">Perfil</h2><p class="adm-sub" id="pf-mail"></p></div></div><button type="button" class="x" data-act="pclose" aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg></button></div><div class="pf-list"><button type="button" class="pf-row" id="abtn" data-act="adm" hidden><span class="pf-ic"><svg class="i"><use href="#i-users"/></svg></span><span class="pf-t">Contas cadastradas</span><span class="bdg" id="abdg" hidden></span><svg class="i chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></button><button type="button" class="pf-row" id="bgbtn" data-act="bg"><span class="pf-ic"><svg class="i"><use href="#i-image"/></svg></span><span class="pf-t">Fundo do app</span><svg class="i chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></button><button type="button" class="pf-row pf-out" data-act="askout"><span class="pf-ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span><span class="pf-t">Sair da conta</span></button></div><div style="height:20px"></div></div></dialog>
 <dialog id="cout" aria-labelledby="cout-t"><div class="adm" style="text-align:center;padding-bottom:20px"><h2 id="cout-t" style="margin:6px 0 6px">Sair da conta?</h2><p class="adm-sub" style="margin:0 0 18px">Você precisará entrar de novo para ver seus lançamentos.</p><div style="display:flex;gap:10px"><button type="button" class="btn btn-ghost" style="flex:1" data-act="coutno">Cancelar</button><button type="button" class="btn btn-primary pf-danger" style="flex:1" data-act="logout">Sair</button></div></div></dialog>
 <button class="fab" id="fab" data-act="new" type="button" aria-label="Novo lançamento"><svg class="i"><use href="#i-plus"/></svg></button>
@@ -677,7 +677,7 @@ dialog::backdrop{background:rgba(8,16,36,.14);-webkit-backdrop-filter:blur(6px);
       <button type="button" data-act="type" data-t="despesa" aria-pressed="true"><span class="sg" aria-hidden="true"><svg class="i"><use href="#i-minus"/></svg></span>Despesa</button>
       <button type="button" data-act="type" data-t="receita" aria-pressed="false"><span class="sg" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg></span>Receita</button>
     </div>
-    <div class="field"><div class="lbl"><label for="f-cat" style="min-height:0">Categoria</label></div>
+    <div class="field"><div class="lbl"><label for="f-cat" style="min-height:0">Categoria</label><button type="button" class="link" data-act="catedit" aria-label="Editar categorias">✎</button></div>
       <div class="cchips" id="cat-chips" role="group" aria-label="Categorias"></div>
       <input id="f-cat" class="input" maxlength="40" placeholder="Ou digite uma categoria nova" enterkeyhint="next"></div>
     <div class="field"><label for="f-desc">Descrição</label>
@@ -688,6 +688,8 @@ dialog::backdrop{background:rgba(8,16,36,.14);-webkit-backdrop-filter:blur(6px);
       <div class="field"><div class="lbl"><label for="f-date" style="min-height:0">Data</label><button type="button" class="link" data-act="nodate">Sem data</button></div>
         <input id="f-date" class="input" type="date"></div>
     </div>
+    <div class="field" id="f-rep-w"><label for="f-rep">Repetir todo mês</label>
+      <select id="f-rep" class="input"><option value="1">Não repetir</option><option value="2">2 meses</option><option value="3">3 meses</option><option value="6">6 meses</option><option value="12">12 meses</option><option value="24">24 meses</option></select></div>
     <div class="bal" id="f-bal"><span class="bl" id="bal-l">Saldo</span> <span class="br" id="bal-r"></span></div>
     <div class="field"><label for="f-note">Observação <span style="font-weight:600;color:var(--text-3)">(opcional)</span></label>
       <input id="f-note" class="input" maxlength="120"></div>
@@ -874,6 +876,7 @@ function timeline() {
   const cur = curYm();
   let lo = cur, hi = cur;
   S.items.forEach(it => { const m = ymOf(it.date); if (m) { if (m < lo) lo = m; if (m > hi) hi = m; } });
+  if (hi < addMonths(cur, 12)) hi = addMonths(cur, 12);
   const W = Math.min(12, Math.max(6, mIdx(hi) - mIdx(lo) + 1));
   const tlo = mIdx(lo) > mIdx(hi) - (W - 1) ? addMonths(hi, -(W - 1)) : lo;
   return { cur: cur, lo: lo, hi: hi, W: W, tlo: tlo };
@@ -1284,9 +1287,11 @@ function ferr(msg, sel) {
 }
 
 /* categorias do tipo escolhido, das mais usadas para as menos usadas */
+const CATX = () => { try { return JSON.parse(localStorage.getItem('astra-cats') || '{}'); } catch (e) { return {}; } };
+const setCATX = o => localStorage.setItem('astra-cats', JSON.stringify(o));
 function catList(type) {
-  const cnt = {}, lab = {}, order = [];
-  DEFAULT_CATS.forEach(c => { const k = fold(c); if (!lab[k]) { lab[k] = c; order.push(k); } });
+  const cnt = {}, lab = {}, order = [], X = CATX(), hid = X.hidden || [];
+  DEFAULT_CATS.concat(X.extra || []).filter(c => hid.indexOf(fold(c)) < 0).forEach(c => { const k = fold(c); if (!lab[k]) { lab[k] = c; order.push(k); } });
   S.items.forEach(i => {
     const k = fold(i.cat);
     if (!lab[k]) { lab[k] = i.cat; order.push(k); }
@@ -1296,14 +1301,14 @@ function catList(type) {
 }
 function fillCats() {
   const cur = fold($('#f-cat').value.trim());
-  $('#cat-chips').innerHTML = catList(S.type).map(c => '<button type="button" class="cchip" data-act="pickcat" data-c="' + esc(c) + '" aria-pressed="' + (!!cur && fold(c) === cur) + '">' + esc(c) + '</button>').join('');
+  $('#cat-chips').innerHTML = catList(S.type).map(c => '<button type="button" class="cchip" data-act="' + (S.catEdit ? 'catmod' : 'pickcat') + '" data-c="' + esc(c) + '" aria-pressed="' + (!!cur && fold(c) === cur) + '">' + esc(c) + (S.catEdit ? ' ✎' : '') + '</button>').join('');
 }
 function markCat() {
   const cur = fold($('#f-cat').value.trim());
   document.querySelectorAll('#cat-chips .cchip').forEach(b => b.setAttribute('aria-pressed', String(!!cur && fold(b.dataset.c) === cur)));
 }
 /* a descrição acompanha a categoria até você escrever outra coisa nela */
-function syncDesc() { if (S.descAuto) $('#f-desc').value = $('#f-cat').value.trim(); }
+function syncDesc() { if (false) $('#f-desc').value = $('#f-cat').value.trim(); }
 
 const parseVal = s => { const d = String(s).replace(/\D/g, ''); return d ? parseInt(d, 10) : 0; };
 
@@ -1372,7 +1377,7 @@ $('#f-desc').addEventListener('input', e => {
 $('#form').addEventListener('submit', async e => {
   e.preventDefault();
   const catRaw = $('#f-cat').value.trim(), cents = parseVal($('#f-val').value), date = $('#f-date').value;
-  const desc = $('#f-desc').value.trim() || catRaw, cat = catRaw || 'Outros', note = $('#f-note').value.trim();
+  const desc = $('#f-desc').value.trim() || catRaw || 'Sem descrição', cat = catRaw || 'Outros', note = $('#f-note').value.trim();
   if (!desc) return ferr('Escolha uma categoria ou escreva uma descrição.', '#f-desc');
   if (!cents) return ferr('Informe um valor maior que zero.', '#f-val');
   if (date && !validDate(date)) return ferr('Data inválida.', '#f-date');
@@ -1381,7 +1386,15 @@ $('#form').addEventListener('submit', async e => {
   const data = { type: S.type, desc: desc, cents: cents, date: date || '', cat: cat, note: note, createdAt: prev ? prev.createdAt : Date.now() };
   ferr(''); setBusy(true);
   try {
-    if (prev) await COL.doc(prev.id).set(data); else await COL.add(data);
+    const rep = prev ? 1 : (+$('#f-rep').value || 1);
+    if (prev) await COL.doc(prev.id).set(data);
+    else if (rep > 1 && date) {
+      const sid = 'r' + Date.now(), dd = +date.slice(8, 10);
+      for (let k = 0; k < rep; k++) {
+        const ym = addMonths(date.slice(0, 7), k), last = new Date(+ym.slice(0, 4), +ym.slice(5, 7), 0).getDate();
+        await COL.add(Object.assign({}, data, { date: ym + '-' + pad(Math.min(dd, last)), series: sid, createdAt: data.createdAt + k }));
+      }
+    } else await COL.add(data);
     setBusy(false); closeSheet();
     /* mostra onde o lançamento ficou: abre o mês dele e o saldo se atualiza */
     if (date) { S.sel = date.slice(0, 7); S.open['s:' + data.type] = true; S.flash = true; }
@@ -1504,6 +1517,19 @@ document.addEventListener('click', e => {
   else if (a === 'clearq') { S.q = ''; $('#q').value = ''; render(); $('#q').focus(); }
   else if (a === 'close') closeSheet();
   else if (a === 'type') setType(t.dataset.t);
+  else if (a === 'catedit') { S.catEdit = !S.catEdit; fillCats(); }
+  else if (a === 'catmod') {
+    const old = t.dataset.c, nv = prompt('Renomear categoria (deixe vazio para excluir):', old);
+    if (nv === null) return;
+    const n = nv.trim(), X = CATX(); X.hidden = X.hidden || []; X.extra = (X.extra || []).filter(c => fold(c) !== fold(old));
+    if (!n && !confirm('Excluir a categoria "' + old + '"? Os lançamentos dela irão para "Outros".')) return;
+    X.hidden.push(fold(old)); if (n) { X.hidden = X.hidden.filter(k => k !== fold(n)); X.extra.push(n); }
+    setCATX(X);
+    const to = n || 'Outros';
+    for (const it of S.items.filter(i => fold(i.cat) === fold(old))) { const d = Object.assign({}, it); delete d.id; d.cat = to; try { await COL.doc(it.id).set(d); } catch (e) {} }
+    if (fold($('#f-cat').value.trim()) === fold(old)) $('#f-cat').value = n;
+    fillCats(); render(); toast(n ? 'Categoria renomeada' : 'Categoria excluída');
+  }
   else if (a === 'pickcat') {
     const c = t.dataset.c, same = fold($('#f-cat').value.trim()) === fold(c);
     $('#f-cat').value = same ? '' : c;
