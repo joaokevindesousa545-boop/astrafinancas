@@ -619,15 +619,12 @@ dialog::backdrop{background:rgba(8,16,36,.14);-webkit-backdrop-filter:blur(6px);
 </svg>
 
 <div class="app" id="app">
-  <header class="topbar" hidden style="display:none">
+  <header class="topbar">
     <div class="top-r">
-      
       <button class="btn-ic btn-pv" id="pvbtn" data-act="phone" type="button" aria-label="Ver como no celular" title="Ver como no celular" hidden><svg class="i"><use href="#i-phone"/></svg></button>
-      
       <button class="btn-ic" id="sbtn" data-act="search" type="button" aria-label="Buscar lançamento" aria-expanded="false" aria-controls="sbox"><svg class="i"><use href="#i-search"/></svg></button>
-      <button class="btn btn-primary btn-new" data-act="new" type="button"><svg class="i"><use href="#i-plus"/></svg>Novo lançamento</button>
     </div>
-  </header>
+   </header>
 
   <main>
     <div id="banner"></div>
@@ -661,12 +658,13 @@ dialog::backdrop{background:rgba(8,16,36,.14);-webkit-backdrop-filter:blur(6px);
   </main>
 </div>
 
-<nav class="bnav" id="bnav" aria-label="Navegação"><button type="button" class="bn on" id="bn-home" data-act="home" aria-label="Início"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></button><button type="button" class="bn" data-act="search" aria-label="Buscar"><svg class="i"><use href="#i-search"/></svg></button><button type="button" class="bn" id="bn-prof" data-act="prof" aria-label="Perfil"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button></nav>
+<nav class="bnav" id="bnav" aria-label="Navegação"><button type="button" class="bn on" id="bn-home" data-act="home" aria-label="Início"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></button><button type="button" class="bn" id="bn-prof" data-act="prof" aria-label="Perfil"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button></nav>
 <dialog id="prof" aria-label="Perfil"><div class="adm"><div class="sheet-h"><div class="pf-who"><span class="pf-av" id="pf-av"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><div><h2 id="pf-name">Perfil</h2><p class="adm-sub" id="pf-mail"></p></div></div><button type="button" class="x" data-act="pclose" aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg></button></div><div class="pf-list"><button type="button" class="pf-row" id="abtn" data-act="adm" hidden><span class="pf-ic"><svg class="i"><use href="#i-users"/></svg></span><span class="pf-t">Contas cadastradas</span><span class="bdg" id="abdg" hidden></span><svg class="i chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></button><button type="button" class="pf-row" id="bgbtn" data-act="bg"><span class="pf-ic"><svg class="i"><use href="#i-image"/></svg></span><span class="pf-t">Fundo do app</span><svg class="i chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></button><button type="button" class="pf-row pf-out" data-act="askout"><span class="pf-ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span><span class="pf-t">Sair da conta</span></button></div><div style="height:20px"></div></div></dialog>
 <dialog id="cout" aria-labelledby="cout-t"><div class="adm" style="text-align:center;padding-bottom:20px"><h2 id="cout-t" style="margin:6px 0 6px">Sair da conta?</h2><p class="adm-sub" style="margin:0 0 18px">Você precisará entrar de novo para ver seus lançamentos.</p><div style="display:flex;gap:10px"><button type="button" class="btn btn-ghost" style="flex:1" data-act="coutno">Cancelar</button><button type="button" class="btn btn-primary pf-danger" style="flex:1" data-act="logout">Sair</button></div></div></dialog>
 <button class="fab" id="fab" data-act="new" type="button" aria-label="Novo lançamento"><svg class="i"><use href="#i-plus"/></svg></button>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<dialog id="catd" aria-labelledby="catd-t"><div class="adm" style="padding-bottom:20px"><h2 id="catd-t" style="margin:6px 0 12px">Editar categoria</h2><input id="cd-name" class="input" maxlength="40" placeholder="Nome da categoria" style="width:100%;margin-bottom:14px"><div style="display:flex;gap:10px"><button type="button" class="btn btn-ghost pf-danger" style="flex:1" data-act="catdel">Excluir</button><button type="button" class="btn btn-primary" style="flex:1" data-act="catsave">Salvar</button></div><p class="adm-sub" style="margin:12px 0 0">Ao excluir, os lançamentos dela vão para "Outros".</p></div></dialog>
 <dialog id="sheet" data-type="despesa" aria-labelledby="sheet-title">
   <form id="form" class="sheet" novalidate autocomplete="off">
     <div class="sheet-h">
@@ -1518,11 +1516,13 @@ document.addEventListener('click', async e => {
   else if (a === 'close') closeSheet();
   else if (a === 'type') setType(t.dataset.t);
   else if (a === 'catedit') { S.catEdit = !S.catEdit; fillCats(); }
-  else if (a === 'catmod') {
-    const old = t.dataset.c, nv = prompt('Renomear categoria (deixe vazio para excluir):', old);
-    if (nv === null) return;
-    const n = nv.trim(), X = CATX(); X.hidden = X.hidden || []; X.extra = (X.extra || []).filter(c => fold(c) !== fold(old));
-    if (!n && !confirm('Excluir a categoria "' + old + '"? Os lançamentos dela irão para "Outros".')) return;
+  else if (a === 'catmod') { S.catOld = t.dataset.c; $('#cd-name').value = S.catOld; $('#catd').showModal(); $('#cd-name').focus(); }
+  else if (a === 'catsave' || a === 'catdel') {
+    const old = S.catOld; if (!old) { $('#catd').close(); return; }
+    const n = a === 'catdel' ? '' : $('#cd-name').value.trim();
+    if (a === 'catsave' && !n) { toast('Digite um nome para a categoria', true); return; }
+    $('#catd').close();
+    const X = CATX(); X.hidden = X.hidden || []; X.extra = (X.extra || []).filter(c => fold(c) !== fold(old));
     X.hidden.push(fold(old)); if (n) { X.hidden = X.hidden.filter(k => k !== fold(n)); X.extra.push(n); }
     setCATX(X);
     const to = n || 'Outros';
