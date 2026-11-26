@@ -92,7 +92,6 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stro
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
 
 .app{max-width:780px;margin:0 auto;padding-block:10px 120px;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
-.topbar-spacer{position:relative;top:auto;z-index:0;min-height:62px;margin:0 0 14px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
 .topbar{position:sticky;top:max(8px,env(safe-area-inset-top,0px));z-index:20;display:flex;align-items:center;justify-content:flex-end;gap:10px;min-height:62px;margin:0 0 14px;padding:8px 9px 8px 12px;border-radius:999px;
   background:radial-gradient(140% 170% at 0% 0%,var(--sheen),transparent 60%),var(--g-bar);box-shadow:var(--shadow)}
 .brand{display:flex;align-items:center;gap:11px;min-width:0}
@@ -625,7 +624,6 @@ dialog::backdrop{background:rgba(8,16,36,.14);-webkit-backdrop-filter:blur(6px);
 </svg>
 
 <div class="app" id="app">
-  <header class="topbar topbar-spacer" aria-hidden="true"></header>
   <main>
     <div id="banner"></div>
 
@@ -1179,7 +1177,8 @@ function renderResults() {
 function renderSearch() {
   const open = !S.gate && (S.searchOpen || !!S.q);
   $('#sbox').hidden = !open;
-  $('#sbtn').setAttribute('aria-expanded', String(open));
+  const searchButton = $('#sbtn');
+  if (searchButton) searchButton.setAttribute('aria-expanded', String(open));
 }
 
 /* ---------- painel do proprietário: contas cadastradas (só leitura) ---------- */
@@ -1187,7 +1186,8 @@ let admTok = 0;
 function renderAdmBadge() {
   const btn = $('#abtn'), b = $('#abdg'), n = S.acc.items.length;
   btn.hidden = !S.owner;
-  $('#pvbtn').hidden = !S.owner;          /* a visualização no celular também é só do proprietário */
+  const phonePreviewButton = $('#pvbtn');
+  if (phonePreviewButton) phonePreviewButton.hidden = !S.owner;
   if (!S.owner) return;
   b.hidden = !n; b.textContent = n;
   btn.setAttribute('aria-label', 'Contas cadastradas' + (n ? ', ' + n : ''));
@@ -1266,7 +1266,9 @@ function render() {
   if (gated) { /* só a tela de entrada */ }
   else if (searching) renderResults();
   else { const T = ensureSel(); renderHead(T); renderChart(T); renderTrio(); renderSecs(); }
-  $('#fab').hidden = !S.canWrite || gated; $('#sbtn').hidden = gated;
+  $('#fab').hidden = !S.canWrite || gated;
+  const searchButton = $('#sbtn');
+  if (searchButton) searchButton.hidden = gated;
   document.querySelectorAll('.btn-new').forEach(b => { b.hidden = !S.canWrite || gated; });
   const sh = $('#sheet'); if (sh && sh.open) balPreview();
   if (key && ae !== document.body && !document.contains(ae)) {
@@ -1524,7 +1526,7 @@ document.addEventListener('click', async e => {
     if (S.searchOpen || S.q) closeSearch();
     else { S.searchOpen = true; render(); $('#q').focus(); }
   }
-  else if (a === 'qclose') { closeSearch(); $('#sbtn').focus(); }
+  else if (a === 'qclose') { closeSearch(); const searchButton = $('#sbtn'); if (searchButton) searchButton.focus(); }
   else if (a === 'clearq') { S.q = ''; $('#q').value = ''; render(); $('#q').focus(); }
   else if (a === 'close') closeSheet();
   else if (a === 'type') setType(t.dataset.t);
@@ -1574,7 +1576,7 @@ $('#q').addEventListener('input', e => {
   const v = e.target.value;
   qT = setTimeout(() => { S.q = v; render(); }, 140);
 });
-$('#q').addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); closeSearch(); $('#sbtn').focus(); } });
+$('#q').addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); closeSearch(); const searchButton = $('#sbtn'); if (searchButton) searchButton.focus(); } });
 
 /* passar o mouse (ou focar pelo teclado) numa coluna mostra o resumo daquele mês */
 const mc = $('#mchart');
@@ -1655,7 +1657,8 @@ function closePhone() {
   pvf.srcdoc = '<!doctype html><title></title>'; /* solta a cópia do app (e a ligação dela com os dados) */
   document.documentElement.classList.remove('pvo');
   $('#app').inert = false; $('#fab').inert = false;
-  $('#pvbtn').focus({ preventScroll: true });
+  const phonePreviewButton = $('#pvbtn');
+  if (phonePreviewButton) phonePreviewButton.focus({ preventScroll: true });
 }
 function setPhoneW(w) {
   if (!PV_H[w]) return;
