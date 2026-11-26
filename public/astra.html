@@ -167,6 +167,12 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stro
 .col .bar{position:relative;display:block;flex:none;width:min(13px,44%);border-radius:5px 5px 0 0;box-shadow:inset 0 1px 0 rgba(255,255,255,.34);transition:opacity .2s,filter .15s}
 .col .bar.r{height:calc(var(--hi)*1%);background:var(--pos-fill)}
 .col .bar.e{height:calc(var(--he)*1%);background:var(--exp-fill)}
+.col.fut .bar.r{background:transparent;box-shadow:inset 0 0 0 2px var(--pos-fill)}
+.col.fut .bar.e{background:transparent;box-shadow:inset 0 0 0 2px var(--exp-fill)}
+.dot.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--text-3)}
+.kp.pend .kp-v{opacity:.72}
+.kp.pend .kp-s{color:var(--text-2);font-weight:700}
+.ag{display:inline-block;padding:1px 7px;border-radius:999px;font-size:.86em;font-weight:700;color:var(--text-2);box-shadow:inset 0 0 0 1px var(--line)}
 .anim .col .bar{animation:grow .7s var(--ease) backwards;animation-delay:calc(var(--i)*28ms)}
 @keyframes grow{from{height:0}}
 .col:hover .bar,.col:focus-visible .bar{filter:brightness(1.12)}
@@ -866,7 +872,9 @@ const sum = (list, type) => list.reduce((a, it) => a + (it.type === type ? it.ce
 const cmp = (a, b) => (b.date || '').localeCompare(a.date || '') || (b.createdAt - a.createdAt) || a.desc.localeCompare(b.desc);
 const perOf = it => ymOf(it.date) || 'sd';
 const eff = (type, c) => (type === 'receita' ? c : -c);
-const saldoOf = per => S.items.reduce((a, it) => a + (perOf(it) === per ? eff(it.type, it.cents) : 0), 0);
+/* lançamento em aberto/agendado: data depois de hoje (dia local); conta sozinho quando o dia chega */
+const isPend = it => !!it.date && it.date > today();
+const saldoOf = per => S.items.reduce((a, it) => a + (perOf(it) === per && !isPend(it) ? eff(it.type, it.cents) : 0), 0);
 
 /* linha do tempo: do primeiro mês com lançamento até o último (sempre inclui o mês atual); mínimo de 6 e máximo de 12 meses no gráfico */
 function timeline() {
@@ -902,11 +910,13 @@ function chartWindow(T) {
   const map = {};
   S.items.forEach(it => {
     const m = ymOf(it.date); if (!m) return;
-    const o = map[m] || (map[m] = { inc: 0, exp: 0 });
-    if (it.type === 'receita') o.inc += it.cents; else o.exp += it.cents;
+    const o = map[m] || (map[m] = { inc: 0, exp: 0, pi: 0, pe: 0 });
+    const pd = isPend(it);
+    if (it.type === 'receita') { if (pd) o.pi += it.cents; else o.inc += it.cents; } else { if (pd) o.pe += it.cents; else o.exp += it.cents; }
   });
+  const cur = curYm();
   const out = [];
-  for (let i = 0; i < T.W; i++) { const ym = addMonths(st, i), o = map[ym] || { inc: 0, exp: 0 }; out.push({ ym: ym, inc: o.inc, exp: o.exp }); }
+  for (let i = 0; i < T.W; i++) { const ym = addMonths(st, i), o = map[ym] || { inc: 0, exp: 0, pi: 0, pe: 0 }, fut = ym > cur && (o.pi + o.pe) > 0; out.push({ ym: ym, inc: fut ? o.pi : o.inc, exp: fut ? o.pe : o.exp, fut: fut }); }
   return out;
 }
 
@@ -1019,7 +1029,7 @@ function renderChart(T) {
   const cols = series.map((s, i) => {
     const isSel = hasSel && s.ym === sel, big = s.inc >= s.exp ? 'inc' : 'exp';
     const lab = k => ((isSel ? (k === big && s[k] > 0) : (!hasSel && peak && peak.i === i && peak.k === k)) ? '<span class="val">' + reais(s[k]) + '</span>' : '');
-    return '<button type="button" class="col' + (isSel ? ' sel' : '') + '" style="--hi:' + hh(s.inc) + ';--he:' + hh(s.exp) + ';--i:' + i + '" data-act="month" data-m="' + s.ym + '" data-i="' + i + '" aria-pressed="' + isSel + '" aria-label="' + mLong(s.ym) + ': receitas ' + brl(s.inc) + ', despesas ' + brl(s.exp) + '"><span class="bar r">' + lab('inc') + '</span><span class="bar e">' + lab('exp') + '</span></button>';
+    return '<button type="button" class="col' + (isSel ? ' sel' : '') + (s.fut ? ' fut' : '') + '" style="--hi:' + hh(s.inc) + ';--he:' + hh(s.exp) + ';--i:' + i + '" data-act="month" data-m="' + s.ym + '" data-i="' + i + '" aria-pressed="' + isSel + '" aria-label="' + mLong(s.ym) + (s.fut ? ' (em aberto)' : '') + ': receitas ' + brl(s.inc) + ', despesas ' + brl(s.exp) + '"><span class="bar r">' + lab('inc') + '</span><span class="bar e">' + lab('exp') + '</span></button>';
   }).join('');
   let si = series.findIndex(s => s.ym === sel); if (si < 0) si = n - 1;
   const xs = series.map((s, i) => { const p = s.ym.split('-'), on = hasSel && s.ym === sel; return '<span class="' + (on ? 'sel ' : '') + (i % 2 !== si % 2 ? 'alt' : '') + '"><b>' + MES3[+p[1] - 1] + '</b><em>' + (i === 0 || p[1] === '01' ? '’' + p[0].slice(2) : '&nbsp;') + '</em></span>'; }).join('');
@@ -1028,7 +1038,7 @@ function renderChart(T) {
   box.innerHTML = '<div class="yaxis">' + yax + '</div><div class="plot">' + gl + '<div class="cols" style="--n:' + n + '">' + cols + '</div><div class="tip" id="tip" hidden></div></div><div class="xaxis' + (n > 8 ? ' dense' : '') + '" style="--n:' + n + '">' + xs + '</div>' + tbl;
   S.anim = false;
   const ud = S.items.filter(i => !i.date).length;
-  foot.innerHTML = '<ul class="lg"><li><i class="dot r" aria-hidden="true"></i>Receitas</li><li><i class="dot e" aria-hidden="true"></i>Despesas</li><li class="u">valores em R$</li></ul>'
+  foot.innerHTML = '<ul class="lg"><li><i class="dot r" aria-hidden="true"></i>Receitas</li><li><i class="dot e" aria-hidden="true"></i>Despesas</li>' + (series.some(s => s.fut) ? '<li><i class="dot o" aria-hidden="true"></i>Em aberto</li>' : '') + '<li class="u">valores em R$</li></ul>'
     + (ud && hasSel ? '<button type="button" class="sdlink" data-act="sd">' + ud + (ud === 1 ? ' item sem data' : ' itens sem data') + ' ›</button>' : '');
 }
 
@@ -1067,11 +1077,14 @@ function renderTrio() {
   if (!S.ready) { box.className = 'trio'; box.innerHTML = '<div class="kp sk-kp" aria-hidden="true"></div><div class="kp sk-kp" aria-hidden="true"></div><div class="kp sk-kp" aria-hidden="true"></div>'; return; }
   if (!S.items.length) { box.className = 'trio'; box.innerHTML = ''; return; }
   const per = S.sel, list = S.items.filter(it => perOf(it) === per);
+  const fut = per !== 'sd' && per > curYm() && list.some(isPend);
+  const real = fut ? list : list.filter(i => !isPend(i)), np = list.length - real.length;
   const inc = list.filter(i => i.type === 'receita'), exp = list.filter(i => i.type !== 'receita');
-  const ti = sum(list, 'receita'), te = sum(list, 'despesa'), sal = ti - te;
+  const ti = sum(real, 'receita'), te = sum(real, 'despesa'), sal = ti - te;
   const card = (type, items, total) => {
-    const n = items.length, isInc = type === 'receita', name = isInc ? 'Receitas' : 'Despesas', cls = isInc ? 'inc' : 'exp';
-    const sub = n === 0 ? 'Nenhum lançamento' : n + (n === 1 ? ' item' : ' itens');
+    const n = items.length, isInc = type === 'receita', name = isInc ? 'Receitas' : 'Despesas', cls = (isInc ? 'inc' : 'exp') + (fut ? ' pend' : '');
+    const pn = fut ? 0 : items.filter(isPend).length;
+    const sub = n === 0 ? 'Nenhum lançamento' : fut ? 'Em aberto · ' + n + (n === 1 ? ' item' : ' itens') : n + (n === 1 ? ' item' : ' itens') + (pn ? ' · ' + pn + ' em aberto' : '');
     const head = '<span class="kp-h"><span class="kp-i" aria-hidden="true">' + ICON(isInc ? 'i-plus' : 'i-minus') + '</span>' + name + '</span>';
     const val = '<span class="kp-v">' + kvHtml(total, n ? (isInc ? '+' : '−') : '') + '</span>';
     const sty = ' style="--i:' + (isInc ? 0 : 1) + '"';
@@ -1080,9 +1093,9 @@ function renderTrio() {
     return '<button type="button" class="kp ' + cls + (open ? ' open' : '') + '"' + sty + ' data-act="sec" data-k="' + type + '" aria-expanded="' + open + '" aria-controls="p-' + type + '" aria-label="' + name + ', ' + money(total) + ', ' + sub + '">'
       + head + val + '<span class="kp-s">' + sub + '<span class="kp-c" aria-hidden="true">' + ICON('i-chev') + '</span></span></button>';
   };
-  const st = sal > 0 ? 'Positivo' : sal < 0 ? 'Negativo' : 'Zerado';
-  const saldo = '<div class="kp sal ' + balCls(sal) + (S.flash ? ' flash' : '') + '" style="--i:2" role="group" aria-label="Saldo, ' + balStr(sal) + ', ' + st.toLowerCase() + '">'
-    + '<span class="kp-h"><span class="kp-i" aria-hidden="true">' + ICON('i-eq') + '</span>Saldo</span>'
+  const st = fut ? 'Agendado' : sal > 0 ? 'Positivo' : sal < 0 ? 'Negativo' : 'Zerado';
+  const saldo = '<div class="kp sal ' + balCls(sal) + (fut ? ' pend' : '') + (S.flash ? ' flash' : '') + '" style="--i:2" role="group" aria-label="Saldo, ' + balStr(sal) + ', ' + st.toLowerCase() + '">'
+    + '<span class="kp-h"><span class="kp-i" aria-hidden="true">' + ICON('i-eq') + '</span>' + (fut ? 'Saldo previsto' : 'Saldo') + '</span>'
     + '<span class="kp-v">' + kvHtml(Math.abs(sal), sal > 0 ? '+' : sal < 0 ? '−' : '') + '</span><span class="kp-s">' + st + '</span></div>';
   box.className = 'trio' + (S.animT ? ' anim' : ''); S.animT = false;
   box.innerHTML = card('receita', inc, ti) + card('despesa', exp, te) + saldo;
@@ -1096,6 +1109,7 @@ function rowHtml(it, o) {
   const parts = [];
   if (!sub && !o.noCat) parts.push(esc(it.cat));
   if (it.date) parts.push('<span class="nw">' + dLabel(it.date) + '</span>');
+  if (isPend(it)) parts.unshift('<span class="ag">Agendado</span>');
   if (it.note) parts.push(esc(it.note));
   return '<' + tag + ' class="row it' + (inc ? ' inc' : '') + (sub ? ' sub' : '') + (rw ? '' : ' ro') + '" style="--i:' + Math.min(o.i || 0, 7) + '"' + (rw ? ' type="button" data-act="edit" data-id="' + esc(it.id) + '"' : '') + '>'
     + (sub ? '' : '<span class="tile">' + iconSvg(it.cat) + '</span>')
@@ -1267,6 +1281,11 @@ function render() {
     }
   }
 }
+
+/* virada do dia: o que estava agendado passa a contar sozinho */
+let dayNow = today();
+const dayTick = () => { const d = today(); if (d !== dayNow) { dayNow = d; render(); } };
+setInterval(dayTick, 60000); document.addEventListener('visibilitychange', dayTick);
 
 /* ---------- sheet / form ---------- */
 const sheet = $('#sheet'), adm = $('#adm');
