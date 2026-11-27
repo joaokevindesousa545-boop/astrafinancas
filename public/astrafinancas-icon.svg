@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Astra Finanças</title>
+  <desc id="desc">Gráfico dourado em crescimento sobre fundo azul.</desc>
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#071EDB"/><stop offset="1" stop-color="#050B75"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFF9A7"/><stop offset=".25" stop-color="#FFD930"/><stop offset=".62" stop-color="#F3AA00"/><stop offset="1" stop-color="#FFF06B"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#02044A" flood-opacity=".55"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="102" fill="url(#blue)"/>
+  <g fill="none" stroke="url(#gold)" stroke-linecap="round" filter="url(#shadow)">
+    <path d="M94 347C54 207 122 88 253 66c71-12 130 5 171 43" stroke-width="26"/>
+    <path d="M402 167c66 105 39 234-58 292-56 34-125 38-187 15" stroke-width="26"/>
+  </g>
+  <g fill="url(#gold)" filter="url(#shadow)">
+    <rect x="132" y="314" width="72" height="95" rx="8"/>
+    <rect x="220" y="267" width="72" height="142" rx="8"/>
+    <rect x="308" y="214" width="72" height="195" rx="8"/>
+    <path d="M94 309c102-25 188-80 253-159l-23-20 100-28-23 101-25-22C297 257 206 305 103 329z"/>
+  </g>
+  <path d="M146 332v61M234 285v108M322 232v161" fill="none" stroke="#FFF9A7" stroke-opacity=".42" stroke-width="5" stroke-linecap="round"/>
+</svg>
