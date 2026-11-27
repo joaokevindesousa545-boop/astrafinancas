@@ -1,0 +1,17 @@
+{
+  "name": "Astra Finanças",
+  "short_name": "Astra",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0719c8",
+  "theme_color": "#0719c8",
+  "icons": [
+    {
+      "src": "/astrafinancas-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
