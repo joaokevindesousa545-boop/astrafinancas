@@ -70,7 +70,7 @@ function Login() {
   return (
     <main className="astra-bg flex min-h-screen items-center justify-center px-5">
       <div className="w-full max-w-sm rounded-[30px] border border-white/80 bg-card/60 p-8 shadow-[0_16px_34px_-18px_rgba(14,40,90,.34)] backdrop-blur-xl">
-        <img src="/astrafinancas-icon.svg" alt="" className="mx-auto mb-5 h-14 w-14 rounded-2xl shadow-[0_8px_18px_-8px_rgba(14,40,90,.45)]" />
+        <img src="/astrafinancas-icon-192.png" alt="" className="mx-auto mb-5 h-14 w-14 rounded-2xl shadow-[0_8px_18px_-8px_rgba(14,40,90,.45)]" />
         <h1 className="text-center text-2xl font-bold tracking-tight text-foreground">Astra Finanças</h1>
         <p className="mt-1 text-center text-sm text-muted-foreground">{mode === "in" ? "Entre para organizar as finanças da sua empresa." : "Crie sua conta gratuita."}</p>
         <form onSubmit={submit} className="mt-6 space-y-3">
